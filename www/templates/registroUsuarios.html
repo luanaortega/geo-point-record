@@ -5,11 +5,13 @@
                            
             <ul class="list" ng-repeat="registro in registros" ng-if="(registro.status == 'aberto')">
                 <li class="item">
-                      Horário de Entrada: {{registro.entrada}}
+                      Horário de Entrada: {{registro.entrada | date : 'dd/MM/yyyy HH:mm'}}
                 </li>
                 <li class="item">
-                        Horário de Saída: {{registro.saida}}
+                        Horário de Saída: {{registro.saida | date : 'dd/MM/yyyy HH:mm'}}
                   </li>
+
+
 
                   <div class="padding">
                         <!-- <button  class = "button button-block button-positive" ng-click="registrarEntrada()">Registrar Entrada</button> -->
@@ -17,7 +19,12 @@
                   </div>
             
             </ul>
-            <div class="padding">
+
+            <center  ng-show="registroAberto">
+                  <div  id="mapa" style="width: 300px; height: 300px;" data-tap-disabled="true"></div>
+            </center>
+
+            <div class="padding" ng-if="!registroAberto">
                   <button  class = "button button-block button-positive" ng-click="registrarEntrada()">Registrar Entrada</button>
                   <!-- <button class = "button button-block button-assertive" ng-click="registrarSaida()">Registrar Saída</button> -->
             </div>

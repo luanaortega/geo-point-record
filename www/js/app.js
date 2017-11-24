@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'firebase'])
+angular.module('starter', ['ionic', 'firebase', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -60,9 +60,9 @@ angular.module('starter', ['ionic', 'firebase'])
   })
 
   $stateProvider.state('registroHorarios', {
-    url: '/registroHorarios', 
+    url: '/registroHorarios/:id', 
     templateUrl: 'templates/registroHorarios.html',//path
-    controller: 'registroHorariosCtrl'
+    controller: 'RegistroHorariosCtrl'
   })
 
   $urlRouterProvider.otherwise("/login");
@@ -115,9 +115,16 @@ angular.module('starter', ['ionic', 'firebase'])
 
 })
 
-.controller('RegistroHorariosCtrl', function($scope, $state, $firebaseArray, $firebaseAuth) {
+.controller('RegistroHorariosCtrl', function($scope, $state, $firebaseArray, $stateParams, $firebaseAuth) {
   
-    var ref = firebase.database().ref().child('registros');
+  // var ref = firebase.database().ref("registros").child($scope.usuario.uid).child(id);
+  // $firebaseObject(ref).$loaded(function(registro)
+
+  // var user = firebase.auth().currentUser;
+
+   var id = $stateParams.id;
+
+    var ref = firebase.database().ref().child('registros').child(id);
     $scope.registros = $firebaseArray(ref);
   
     $scope.sair = function() {
@@ -127,7 +134,6 @@ angular.module('starter', ['ionic', 'firebase'])
     }
   
   })
-
 
 .controller('CadastroCtrl', function($scope,$state, $firebaseArray, $firebaseAuth) {
 
@@ -147,19 +153,7 @@ angular.module('starter', ['ionic', 'firebase'])
       }
 })
 
-.controller('registroHorariosCtrl', function($scope, $state, $firebaseArray, $firebaseAuth) {
-  
-    var ref = firebase.database().ref().child('registros');
-    $scope.colaboradores = $firebaseArray(ref);
-  
-    $scope.sair = function() {
-      $firebaseAuth().$signOut().then(function() {
-        $state.go('login');
-      })
-    }
-  })
-
-.controller('registroUsuariosCtrl', function($scope, $state, $firebaseArray, $firebaseObject, $firebaseAuth) {
+.controller('registroUsuariosCtrl', function($scope, $state, $cordovaGeolocation, $firebaseArray, $firebaseObject, $firebaseAuth) {
 
   $scope.usuario = firebase.auth().currentUser;
 
@@ -167,14 +161,58 @@ angular.module('starter', ['ionic', 'firebase'])
   // var query = ref.orderByChild('entrada').limitToFirst(1);
   $scope.registros = $firebaseArray(ref);
 
+  $scope.registroAberto = false;
+
+  $scope.registros.$loaded(function(_registros) {
+    for(var i = 0; i < _registros.length; i++) {
+      if(_registros[i].status == 'aberto') {
+        $scope.registroAberto = true;
+        showMap(_registros[i].lat, _registros[i].lng);
+        break;
+      }
+    }
+  })
+
   $scope.registrarEntrada = function(){
-   
-      $scope.registros.$add({
-        entrada: new Date().getTime(),
-        lat: -20,
-        lng: -40,
-        status: 'aberto'
-      });
+
+    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+    $cordovaGeolocation
+      .getCurrentPosition(posOptions)
+      .then(function (position) {
+
+        $scope.registros.$add({
+          entrada: new Date().getTime(),
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          status: 'aberto'
+        }).then(function() {
+
+          showMap(position.coords.latitude, position.coords.longitude);
+        })
+  
+        $scope.registroAberto = true;
+
+      }, function(err) {
+        // error
+      });   
+      
+    }
+
+    function showMap (lat, lng) {
+      var coordenadas = {
+        lat: parseFloat(lat),
+        lng: parseFloat(lng)
+      };
+
+        var map = new google.maps.Map(document.getElementById('mapa'), {
+            zoom: 16,
+            center: coordenadas
+        });
+    
+        var marker = new google.maps.Marker({
+            position: coordenadas,
+            map: map
+        });
     }
     
   $scope.registrarSaida = function(id){
@@ -186,7 +224,10 @@ angular.module('starter', ['ionic', 'firebase'])
             registro.status = 'fechado';
       
             registro.$save().then(function() {
-              alert('Registro finalizado');
+
+              $scope.registroAberto = false;
+
+              // alert('Registro finalizado');
             });
     })
   }

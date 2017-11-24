@@ -11,7 +11,7 @@
 
         <ion-list>
             
-            <ion-item ui-sref="registroHorarios"  ng-repeat="colaborador in colaboradores | orderBy: 'nome'">
+            <ion-item  ng-repeat="colaborador in colaboradores | orderBy: 'nome'" ui-sref="registroHorarios({id: colaborador.$id})" >
                 <h2>{{colaborador.nome}}</h2>
                 <p>{{colaborador.cargo}}</p>
             </ion-item>

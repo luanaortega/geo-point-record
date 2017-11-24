@@ -4,9 +4,9 @@
 
         <ion-list>
 
-            <ion-item ng-repeat="registro in registros">
-                    <h2>{{registro.entrada}}</h2>
-                    <h2>{{registro.saida}}</h2>
+            <ion-item ng-repeat="registro in registros | orderBy: '-saida'">
+                    <p>Entrada: {{registro.entrada | date : 'dd/MM/yyyy HH:mm'}}</p>
+                    <p>Saída: {{registro.saida | date : 'dd/MM/yyyy HH:mm'}}</p>
             </ion-item>
 
         </ion-list>
