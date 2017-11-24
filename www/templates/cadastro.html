@@ -1,0 +1,39 @@
+<ion-view title = "Cadastro">
+            
+  <ion-nav-buttons side="right">
+    <a ui-sref="login" class="button">Sair</a>
+  </ion-nav-buttons>  
+  
+  
+  <ion-content>
+     
+    <form name="form" ng-submit="enviar(colaboradores)">
+
+      <div class="list list-inset">
+        <label class="item item-input">
+          <input type="text" placeholder="Nome" ng-model="colaboradores.nome">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Cargo" ng-model="colaboradores.cargo">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Telefone" ng-model="colaboradores.telefone">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="E-mail" ng-model="colaboradores.email">
+        </label>
+        <label class="item item-input">
+            <input type="text" placeholder="Senha" ng-model="colaboradores.password">
+        </label>
+        <button class="button button-block button-positive" ng-disabled="form.$invalid">
+          salvar
+        </button>
+        
+      </div>
+
+    </form>
+
+  </ion-content>
+
+</ion-view>
+

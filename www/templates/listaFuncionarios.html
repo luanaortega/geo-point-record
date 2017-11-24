@@ -1,0 +1,23 @@
+<ion-view title="Funcionários">     
+             
+    <ion-nav-buttons side="right">
+        <a ui-sref="cadastro" class="button">Novo</a>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="left">
+        <button ng-click="sair()" class="button button-clear">Sair</button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <ion-list>
+            
+            <ion-item ui-sref="registroHorarios"  ng-repeat="colaborador in colaboradores | orderBy: 'nome'">
+                <h2>{{colaborador.nome}}</h2>
+                <p>{{colaborador.cargo}}</p>
+            </ion-item>
+
+        </ion-list>
+
+    </ion-content>
+
+</ion-view>

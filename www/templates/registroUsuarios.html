@@ -1,0 +1,29 @@
+<ion-view title= "Registro Entrada e Saída">
+
+    <ion-content>
+
+                           
+            <ul class="list" ng-repeat="registro in registros" ng-if="(registro.status == 'aberto')">
+                <li class="item">
+                      Horário de Entrada: {{registro.entrada}}
+                </li>
+                <li class="item">
+                        Horário de Saída: {{registro.saida}}
+                  </li>
+
+                  <div class="padding">
+                        <!-- <button  class = "button button-block button-positive" ng-click="registrarEntrada()">Registrar Entrada</button> -->
+                        <button class = "button button-block button-assertive" ng-click="registrarSaida(registro.$id)">Registrar Saída</button>
+                  </div>
+            
+            </ul>
+            <div class="padding">
+                  <button  class = "button button-block button-positive" ng-click="registrarEntrada()">Registrar Entrada</button>
+                  <!-- <button class = "button button-block button-assertive" ng-click="registrarSaida()">Registrar Saída</button> -->
+            </div>
+
+      
+
+    </ion-content>
+
+</ion-view>
