@@ -1,0 +1,23 @@
+Geo Point Record
+
+Descrição – até 4000 caracteres
+
+O Geo Point Record é um aplicativo voltado para pequenas e médias empresas de 
+todos os setores econômicos. Através dele é possível gerenciar o registro de 
+ponto de cada colaborador com base na sua localização geográfica, possibilitando
+uma gestão mais fácil, segura e confiável das horas trabalhadas, banco de horas,
+horas extras e folgas de seus colaboradores.
+ 
+Alunos:
+Luana de Almeida Ortega
+luana.aortega@hotmail.com
+
+Roni Junio Pereira 
+rjuniopereira@gmail.com
+
+Robon Frediani Zacarelli
+robson.zacarelli@hotmail.com
+
+Resumo – até 80 caracteres
+
+Baixe agora nosso aplicativo e melhore a gestão da sua empresa!
